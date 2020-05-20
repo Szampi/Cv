@@ -11,7 +11,7 @@ import io.reactivex.Single
 class GithubUseCase(private val githubService: GithubService) {
 
     fun getData(): Single<GithubData> {
-        return githubService.getGithubData().map { it.toGithubData() }
+        return githubService.getGithubDataResponse().map { it.toGithubData() }
     }
 
     private fun GithubResponse.toGithubData(): GithubData {
