@@ -12,6 +12,7 @@ buildscript {
         rxAndroidVersion = '2.0.2'
         retrofitVersion = '2.6.0'
         retrofitScalarsVersion = '2.5.0'
+        recyclerViewVersion = '1.1.0'
     }
     repositories {
         google()
