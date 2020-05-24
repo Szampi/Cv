@@ -13,12 +13,18 @@ import kotlinx.android.synthetic.main.a_main.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainView {
+    companion object {
+        const val NAME = "MainName"
+        const val EMAIL = "MainEmail"
+        const val IMAGE_URL = "MainImageUrl"
+    }
 
     @Inject
     lateinit var presenter: MainPresenter
 
     lateinit var adapter: TitleAdapter
     lateinit var layoutManager: LinearLayoutManager
+    private var imageUrl: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -27,6 +33,16 @@ class MainActivity : AppCompatActivity(), MainView {
         presenter.bind(this)
 
         presenter.getData()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        presenter.saveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        presenter.restoreState(savedInstanceState)
     }
 
     override fun initView(data: GithubData) {
@@ -39,10 +55,26 @@ class MainActivity : AppCompatActivity(), MainView {
         image.load(this, data.image)
         name.text = data.fullName
         email.text = data.email
+        imageUrl = data.image
     }
 
     override fun displayCv(data: List<CvData>) {
         adapter.addItems(data)
+    }
+
+    override fun saveDataForState(outState: Bundle) {
+        outState.putCharSequence(NAME, name.text)
+        outState.putCharSequence(EMAIL, email.text)
+        outState.putString(IMAGE_URL, imageUrl)
+    }
+
+    override fun displayDataFromState(savedInstanceState: Bundle?) {
+        savedInstanceState?.let {
+            name.text = it.getCharSequence(NAME)
+            email.text = it.getCharSequence(EMAIL)
+            val url = it.getString(IMAGE_URL)
+            url?.let { imageUrl -> image.load(this, imageUrl) }
+        }
     }
 
     override fun onDestroy() {
