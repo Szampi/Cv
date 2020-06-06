@@ -10,7 +10,7 @@ interface GithubService {
     @GET("b63d0d53ba6a3179b823d0ccaa21975a/raw/8e37d72f03e07c8b95b3c689bb8bbad453469550/data.json")
     fun getGithubDataResponse(): Single<GithubResponse>
 
-    @GET("94c2960075a2e3afa0e45d307a8c0f16/raw/5f1dc3ebc00c61e24e52817d7e46bff8672adc3e/cv.json")
+    @GET("94c2960075a2e3afa0e45d307a8c0f16/raw/242a75bdc61e1f0e9425632dfa4b43fb074e1b61/cv.json")
     fun getCvData(): Single<List<CvResponse>>
 
 }
