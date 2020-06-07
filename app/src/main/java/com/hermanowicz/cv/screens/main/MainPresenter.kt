@@ -15,6 +15,7 @@ class MainPresenter(
         view?.initView()
         view?.showProgressBar()
         firebaseUseCase.getData().compose(transformer.single()).subscribe({
+            view?.hideProgressBar()
             view?.displayToDoList(it)
             list.addAll(it)
         }, {
@@ -36,13 +37,15 @@ class MainPresenter(
     }
 
     fun loadMoreItems() {
-        view?.showProgressBar()
+//        view?.showProgressBar()
         firebaseUseCase.loadMore().compose(transformer.single()).subscribe({
-            view?.displayToDoList(it)
-            view?.hideProgressBar()
-            list.addAll(it)
+            if (it.isNotEmpty()) {
+//                view?.hideProgressBar()
+                list.addAll(it)
+                view?.displayToDoList(list)
+            } //else view?.hideProgressBar()
         }, {
-            view?.hideProgressBar()
+//            view?.hideProgressBar()
             view?.showError(it.message)
         }).remember()
     }

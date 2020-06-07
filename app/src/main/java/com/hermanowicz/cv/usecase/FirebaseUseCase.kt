@@ -1,5 +1,6 @@
 package com.hermanowicz.cv.usecase
 
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hermanowicz.cv.model.FormItem
 import com.hermanowicz.cv.repository.UserRepository
@@ -16,6 +17,7 @@ class FirebaseUseCase(
     private val currentUserId = getUserId()
     private val itemList = mutableListOf<FormItem>()
     private val documentIds = mutableListOf<String>()
+    private val snapshotsList = mutableListOf<DocumentSnapshot>()
 
     private fun getUserId(): String {
         val id = repository.userId()
@@ -36,6 +38,7 @@ class FirebaseUseCase(
                         doc.formItemResponse().formItem()
                     }
                     documentIds.addAll(it.documents.map { doc -> doc.id })
+                    snapshotsList.addAll(it.documents)
                     itemList.addAll(todoList)
                     publisher.onSuccess(todoList)
                 }
@@ -47,14 +50,13 @@ class FirebaseUseCase(
 
     fun loadMore(): Single<List<FormItem>> {
         return Single.create { publisher ->
-            val lastItem = itemList[itemList.size - 1]
+            val lastItem = snapshotsList[snapshotsList.size - 1]
             firebaseDB.collection(currentUserId)
                 .startAfter(lastItem)
                 .limit(30)
                 .get()
                 .addOnSuccessListener {
                     val todoList = it.documents.map { doc ->
-                        doc.id
                         doc.formItemResponse().formItem()
                     }
                     itemList.addAll(todoList)
@@ -74,6 +76,7 @@ class FirebaseUseCase(
                     doc.formItemResponse().formItem()
                 } ?: listOf()
                 documentIds.clear()
+                snapshotsList.addAll(data?.documents ?: listOf())
                 documentIds.addAll(data?.documents?.map { doc -> doc.id } ?: listOf())
 
                 publisher.onSuccess(todoList)
@@ -114,7 +117,7 @@ class FirebaseUseCase(
     }
 
     fun removeItem(adapterPosition: Int): Single<Boolean> {
-        return Single.create{ publisher ->
+        return Single.create { publisher ->
             firebaseDB.collection(currentUserId).document(documentId(adapterPosition)).delete()
                 .addOnSuccessListener {
                     publisher.onSuccess(true)

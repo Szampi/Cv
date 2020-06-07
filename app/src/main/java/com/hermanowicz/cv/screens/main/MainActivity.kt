@@ -1,9 +1,11 @@
 package com.hermanowicz.cv.screens.main
 
+import android.nfc.tech.MifareUltralight.PAGE_SIZE
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.hermanowicz.cv.R
 import com.hermanowicz.cv.model.FormItem
 import com.hermanowicz.cv.screens.form.FormActivity
@@ -15,6 +17,7 @@ import com.hermanowicz.cv.utils.view.start
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.a_main.*
 import javax.inject.Inject
+
 
 class MainActivity : AppCompatActivity(), MainView, FormItemClickedListener {
 
@@ -40,6 +43,25 @@ class MainActivity : AppCompatActivity(), MainView, FormItemClickedListener {
 
         fab.setOnClickListener {
             presenter.onFabClicked()
+        }
+
+        formItemRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                onScroll()
+            }
+        })
+    }
+
+    private fun onScroll() {
+        val visibleCount = layoutManager.childCount
+        val total = layoutManager.itemCount
+        val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+        if (visibleCount + firstVisibleItemPosition >= total &&
+            firstVisibleItemPosition >= 0 &&
+            total >= PAGE_SIZE
+        ) {
+            presenter.loadMoreItems()
         }
     }
 
