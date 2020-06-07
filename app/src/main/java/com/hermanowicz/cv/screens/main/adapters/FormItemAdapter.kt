@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hermanowicz.cv.R
 import com.hermanowicz.cv.model.FormItem
-import com.hermanowicz.cv.utils.load
+import com.hermanowicz.cv.utils.view.load
 import kotlinx.android.synthetic.main.i_todo.view.*
 
 class FormItemAdapter(private val listener: FormItemClickedListener? = null) :

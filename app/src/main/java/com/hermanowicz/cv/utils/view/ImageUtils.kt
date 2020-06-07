@@ -1,4 +1,4 @@
-package com.hermanowicz.cv.utils
+package com.hermanowicz.cv.utils.view
 
 import android.content.Context
 import android.widget.ImageView

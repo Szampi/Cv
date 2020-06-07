@@ -1,6 +1,7 @@
 package com.hermanowicz.cv.di.module
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
@@ -32,4 +33,12 @@ class AppModule {
     @Singleton
     fun firebaseDatabase(): FirebaseFirestore = FirebaseFirestore.getInstance()
 
+    @Provides
+    @Singleton
+    fun sharedPreferences(applicationContext: Context): SharedPreferences {
+        return applicationContext.getSharedPreferences(
+            App::class.java.canonicalName,
+            Context.MODE_PRIVATE
+        )
+    }
 }

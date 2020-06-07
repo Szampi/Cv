@@ -7,7 +7,9 @@
     <color name="white">#FFFFFF</color>
     <color name="gray">#B3B3B3</color>
     <color name="lightBlue">#ADD8E6</color>
-    <color name="colorGreen">#00FF00</color>
-    <color name="colorBackground">#FAFAFA</color>
-    <color name="colorFormItemBorder">#336666</color>
+    <color name="green">#00FF00</color>
+    <color name="background">#FAFAFA</color>
+    <color name="formItemBorder">#336666</color>
+    <color name="purple">@android:color/holo_purple</color>
+    <color name="loaderBackground">#66000000</color>
 </resources>

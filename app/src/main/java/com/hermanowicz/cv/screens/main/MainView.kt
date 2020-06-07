@@ -8,4 +8,6 @@ interface MainView : View {
     fun initView()
     fun displayToDoList(data: List<FormItem>)
     fun showForm()
+    fun showProgressBar()
+    fun hideProgressBar()
 }

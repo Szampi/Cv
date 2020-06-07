@@ -1,4 +1,4 @@
-package com.hermanowicz.cv.utils
+package com.hermanowicz.cv.utils.view
 
 import androidx.appcompat.app.AppCompatActivity
 

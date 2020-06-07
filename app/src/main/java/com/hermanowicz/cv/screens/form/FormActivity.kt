@@ -1,10 +1,11 @@
 package com.hermanowicz.cv.screens.form
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.hermanowicz.cv.R
 import com.hermanowicz.cv.model.FormItem
-import com.hermanowicz.cv.utils.showError
+import com.hermanowicz.cv.utils.view.showError
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.a_form.*
 import javax.inject.Inject
@@ -43,5 +44,25 @@ class FormActivity : AppCompatActivity(), FormView {
 
         titleField.showError(30, getString(R.string.titleError))
         descriptionField.showError(200, getString(R.string.descriptionError))
+
+        save.setOnClickListener {
+            presenter.saveData(
+                descriptionField.text.toString(),
+                titleField.text.toString(),
+                urlField.text.toString()
+            )
+        }
+    }
+
+    override fun finishActivity() {
+        finish()
+    }
+
+    override fun showProgressBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        progressBar.visibility = View.GONE
     }
 }

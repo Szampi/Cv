@@ -4,5 +4,7 @@ import com.hermanowicz.cv.di.common.view.View
 
 interface FormView: View {
     fun initView()
-
+    fun finishActivity()
+    fun showProgressBar()
+    fun hideProgressBar()
 }

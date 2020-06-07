@@ -1,4 +1,4 @@
-package com.hermanowicz.cv.utils
+package com.hermanowicz.cv.utils.view
 
 import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
