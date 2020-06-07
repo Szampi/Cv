@@ -1,6 +1,7 @@
 package com.hermanowicz.cv.di.module
 
 import android.content.Context
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -26,5 +27,9 @@ class AppModule {
     fun gson(): Gson = GsonBuilder()
         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         .create()
+
+    @Provides
+    @Singleton
+    fun firebaseDatabase(): FirebaseFirestore = FirebaseFirestore.getInstance()
 
 }

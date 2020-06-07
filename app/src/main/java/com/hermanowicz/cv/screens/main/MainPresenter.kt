@@ -2,11 +2,13 @@ package com.hermanowicz.cv.screens.main
 
 import android.os.Bundle
 import android.util.Log
+import com.google.firebase.firestore.FirebaseFirestore
 import com.hermanowicz.cv.di.common.presenter.SubscribingPresenter
 import com.hermanowicz.cv.di.common.transformer.RxTransformer
 import com.hermanowicz.cv.usecase.GithubUseCase
 
-class MainPresenter(transformer: RxTransformer, private val githubUseCase: GithubUseCase) :
+class MainPresenter(transformer: RxTransformer, private val githubUseCase: GithubUseCase,
+firebaseDB: FirebaseFirestore) :
     SubscribingPresenter<MainView>(transformer) {
 
     fun getData() {

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "239473587249",
+    "firebase_url": "https://cvapp-d1d30.firebaseio.com",
+    "project_id": "cvapp-d1d30",
+    "storage_bucket": "cvapp-d1d30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239473587249:android:a41a2d759fec7db9f91110",
+        "android_client_info": {
+          "package_name": "com.hermanowicz.cv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "239473587249-gm08739vvjr8e2ctetbjvta2q22j94k9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9gV32aMzgnMGl9l_ohG_n6JKsIlXQ88c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "239473587249-gm08739vvjr8e2ctetbjvta2q22j94k9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

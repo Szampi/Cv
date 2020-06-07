@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CV</string>
+    <string name="title">Title:</string>
+    <string name="form">FORM</string>
+    <string name="description">Description:</string>
+    <string name="imageUrl">Image url:</string>
+    <string name="titleError">Max 30 characters</string>
+    <string name="descriptionError">Max 200 characters</string>
 </resources>

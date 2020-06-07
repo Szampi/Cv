@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
@@ -9,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.hermanowicz.cv"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -26,6 +27,15 @@ android {
 
     buildTypes.each {
         it.buildConfigField 'String', 'SERVER_URL', '"https://gist.github.com/Szampi/"'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
 }
@@ -55,5 +65,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
     //RECYCLER
     implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
+    //FIREBASE
+    implementation "com.google.firebase:firebase-firestore:$firestoreVersion"
 
 }
