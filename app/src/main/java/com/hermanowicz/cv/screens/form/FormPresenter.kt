@@ -1,6 +1,5 @@
 package com.hermanowicz.cv.screens.form
 
-import android.util.Log
 import com.hermanowicz.cv.di.common.presenter.SubscribingPresenter
 import com.hermanowicz.cv.di.common.transformer.RxTransformer
 import com.hermanowicz.cv.usecase.FirebaseUseCase
@@ -20,9 +19,8 @@ class FormPresenter(transformer: RxTransformer, private val firebaseUseCase: Fir
                 view?.hideProgressBar()
                 view?.finishActivity()
             }, {
-                Log.d("ERROR :: ", "${it.message}")
                 view?.hideProgressBar()
-                //TODO show error
+                view?.showError(it.message)
             }).remember()
     }
 }

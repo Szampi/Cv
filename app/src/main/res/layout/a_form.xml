@@ -83,7 +83,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_8"
         android:background="@drawable/edit_text_rounded"
-        android:imeOptions="actionNext"
         android:inputType="text"
         android:maxLength="200"
         android:maxLines="6"

@@ -19,10 +19,8 @@ class MainPresenter(
             list.addAll(it)
         }, {
             view?.hideProgressBar()
-            //TODO show error
+            view?.showError(it.message)
         }).remember()
-
-
     }
 
     fun collectionListener() {
@@ -33,7 +31,7 @@ class MainPresenter(
             list.addAll(it)
         }, {
             view?.hideProgressBar()
-            //TODO show error
+            view?.showError(it.message)
         }).remember()
     }
 
@@ -45,7 +43,7 @@ class MainPresenter(
             list.addAll(it)
         }, {
             view?.hideProgressBar()
-            //TODO show error prompt
+            view?.showError(it.message)
         }).remember()
     }
 
@@ -56,5 +54,17 @@ class MainPresenter(
     fun getDocument(item: FormItem, position: Int) {
         val documentId = firebaseUseCase.documentId(position)
         view?.showForm(item, documentId)
+    }
+
+    fun removeItem(adapterPosition: Int) {
+        firebaseUseCase.removeItem(adapterPosition).subscribe({
+            view?.updateRemovedItem(adapterPosition)
+        }, {
+            view?.showError(it.message)
+        }).remember()
+    }
+
+    fun openConfirmationPrompt(position: Int) {
+        view?.showConfirmationPrompt(position)
     }
 }

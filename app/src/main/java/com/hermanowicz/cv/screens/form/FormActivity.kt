@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.hermanowicz.cv.R
 import com.hermanowicz.cv.model.FormItem
+import com.hermanowicz.cv.utils.dialog.showErrorDialog
 import com.hermanowicz.cv.utils.view.showError
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.a_form.*
@@ -68,5 +69,9 @@ class FormActivity : AppCompatActivity(), FormView {
 
     override fun hideProgressBar() {
         progressBar.visibility = View.GONE
+    }
+
+    override fun showError(message: String?) {
+        showErrorDialog(this, message)
     }
 }

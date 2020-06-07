@@ -42,6 +42,11 @@ class FormItemAdapter(private val listener: FormItemClickedListener? = null) :
         holder.bind(list[position])
     }
 
+    fun removeItem(position: Int) {
+        list.remove(list[position])
+        notifyItemRemoved(position)
+    }
+
     inner class TitleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(item: FormItem) {
             var currentMaxLines = itemView.description.maxLines
@@ -49,9 +54,15 @@ class FormItemAdapter(private val listener: FormItemClickedListener? = null) :
             itemView.description.text = item.description
             itemView.image.load(itemView.context, item.url)
 
-            if (item.description.length < 50) itemView.expandableImg.visibility = View.GONE
+            if (item.description.length < 50) itemView.expandableImg.visibility =
+                View.GONE else itemView.expandableImg.visibility = View.VISIBLE
+
             itemView.itemContainer.setOnClickListener {
                 listener?.onFormItemClicked(item, adapterPosition)
+            }
+            itemView.itemContainer.setOnLongClickListener {
+                listener?.onFormLongClick(adapterPosition)
+                true
             }
             itemView.expandableImg.setOnClickListener {
                 if (currentMaxLines == MIN_LINES) {
@@ -72,6 +83,7 @@ class FormItemAdapter(private val listener: FormItemClickedListener? = null) :
 
 interface FormItemClickedListener {
     fun onFormItemClicked(item: FormItem, position: Int)
+    fun onFormLongClick(adapterPosition: Int)
 }
 
 

@@ -7,4 +7,5 @@ interface FormView: View {
     fun finishActivity()
     fun showProgressBar()
     fun hideProgressBar()
+    fun showError(message: String?)
 }

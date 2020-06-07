@@ -73,6 +73,9 @@ class FirebaseUseCase(
                 val todoList = data?.documents?.map { doc ->
                     doc.formItemResponse().formItem()
                 } ?: listOf()
+                documentIds.clear()
+                documentIds.addAll(data?.documents?.map { doc -> doc.id } ?: listOf())
+
                 publisher.onSuccess(todoList)
             }
         }
@@ -108,5 +111,16 @@ class FirebaseUseCase(
 
     fun documentId(position: Int): String {
         return documentIds[position]
+    }
+
+    fun removeItem(adapterPosition: Int): Single<Boolean> {
+        return Single.create{ publisher ->
+            firebaseDB.collection(currentUserId).document(documentId(adapterPosition)).delete()
+                .addOnSuccessListener {
+                    publisher.onSuccess(true)
+                }.addOnFailureListener { error ->
+                    publisher.onError(error)
+                }
+        }
     }
 }

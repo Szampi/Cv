@@ -5,7 +5,6 @@ import com.hermanowicz.cv.di.module.AppModule
 import com.hermanowicz.cv.di.module.BuilderModule
 import com.hermanowicz.cv.modules.FormModule
 import com.hermanowicz.cv.modules.MainModule
-import com.hermanowicz.cv.modules.NetworkModule
 import com.hermanowicz.cv.modules.RepositoryModule
 import dagger.BindsInstance
 import dagger.Component
@@ -18,7 +17,6 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         AppModule::class,
         BuilderModule::class,
-        NetworkModule::class,
         MainModule::class,
         FormModule::class,
         RepositoryModule::class

@@ -9,6 +9,8 @@ import com.hermanowicz.cv.model.FormItem
 import com.hermanowicz.cv.screens.form.FormActivity
 import com.hermanowicz.cv.screens.main.adapters.FormItemAdapter
 import com.hermanowicz.cv.screens.main.adapters.FormItemClickedListener
+import com.hermanowicz.cv.utils.dialog.showAlertWithMessage
+import com.hermanowicz.cv.utils.dialog.showErrorDialog
 import com.hermanowicz.cv.utils.view.start
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.a_main.*
@@ -62,6 +64,18 @@ class MainActivity : AppCompatActivity(), MainView, FormItemClickedListener {
         progressBar.visibility = View.GONE
     }
 
+    override fun updateRemovedItem(position: Int) {
+        adapter.removeItem(position)
+    }
+
+    override fun showConfirmationPrompt(position: Int) {
+        showAlertWithMessage(this) { presenter.removeItem(position) }
+    }
+
+    override fun showError(message: String?) {
+        showErrorDialog(this, message)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         presenter.unbind()
@@ -70,6 +84,10 @@ class MainActivity : AppCompatActivity(), MainView, FormItemClickedListener {
 
     override fun onFormItemClicked(item: FormItem, position: Int) {
         presenter.getDocument(item, position)
+    }
+
+    override fun onFormLongClick(adapterPosition: Int) {
+        presenter.openConfirmationPrompt(adapterPosition)
     }
 
     override fun onResume() {
