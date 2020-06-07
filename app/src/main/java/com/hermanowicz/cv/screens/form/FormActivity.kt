@@ -1,7 +1,7 @@
 package com.hermanowicz.cv.screens.form
 
-import android.app.Activity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.hermanowicz.cv.R
 import com.hermanowicz.cv.model.FormItem
 import com.hermanowicz.cv.utils.showError
@@ -10,12 +10,9 @@ import kotlinx.android.synthetic.main.a_form.*
 import javax.inject.Inject
 
 
-class FormActivity : Activity(), FormView {
+class FormActivity : AppCompatActivity(), FormView {
 
     companion object {
-        const val TITLE = "TITLE"
-        const val DESCRIPTION = "DESCRIPTION"
-        const val URL = "URL"
         const val FORM_ITEM = "FORM_ITEM"
 
         fun createExtras(item: FormItem): Bundle {
@@ -37,7 +34,7 @@ class FormActivity : Activity(), FormView {
         presenter.onCreate()
     }
 
-    override fun setupView() {
+    override fun initView() {
         formItem?.let {
             descriptionField.setText(it.description)
             titleField.setText(it.title)

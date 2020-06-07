@@ -6,4 +6,5 @@
     <string name="imageUrl">Image url:</string>
     <string name="titleError">Max 30 characters</string>
     <string name="descriptionError">Max 200 characters</string>
+    <string name="todo">TO DO</string>
 </resources>

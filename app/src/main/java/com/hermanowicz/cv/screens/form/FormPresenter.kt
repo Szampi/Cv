@@ -5,7 +5,7 @@ import com.hermanowicz.cv.di.common.transformer.RxTransformer
 
 class FormPresenter(transformer: RxTransformer) : SubscribingPresenter<FormView>(transformer) {
     fun onCreate() {
-        view?.setupView()
+        view?.initView()
     }
 
 }

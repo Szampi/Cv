@@ -15,6 +15,7 @@ buildscript {
         recyclerViewVersion = '1.1.0'
         googleServicesVersion = '4.3.3'
         firestoreVersion = '21.4.3'
+        materialVersion = '1.1.0'
     }
     repositories {
         google()

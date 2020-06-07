@@ -34,6 +34,7 @@
 
 #PROJECT
 -keep class com.hermanowicz.cv.** { *; }
+-keepnames class com.hermanowicz.cv.** { *; }
 
 
 

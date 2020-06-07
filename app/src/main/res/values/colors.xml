@@ -9,4 +9,5 @@
     <color name="lightBlue">#ADD8E6</color>
     <color name="colorGreen">#00FF00</color>
     <color name="colorBackground">#FAFAFA</color>
+    <color name="colorFormItemBorder">#336666</color>
 </resources>
