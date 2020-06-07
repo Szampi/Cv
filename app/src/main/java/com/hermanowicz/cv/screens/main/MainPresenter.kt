@@ -16,7 +16,6 @@ class MainPresenter(
         view?.showProgressBar()
         firebaseUseCase.getData().compose(transformer.single()).subscribe({
             view?.displayToDoList(it)
-            view?.hideProgressBar()
             list.addAll(it)
         }, {
             view?.hideProgressBar()
@@ -26,8 +25,7 @@ class MainPresenter(
 
     }
 
-    private fun collectionListener() {
-        view?.showProgressBar()
+    fun collectionListener() {
         firebaseUseCase.addListener().compose(transformer.single()).subscribe({
             view?.displayToDoList(it)
             view?.hideProgressBar()
@@ -53,5 +51,10 @@ class MainPresenter(
 
     fun onFabClicked() {
         view?.showForm()
+    }
+
+    fun getDocument(item: FormItem, position: Int) {
+        val documentId = firebaseUseCase.documentId(position)
+        view?.showForm(item, documentId)
     }
 }

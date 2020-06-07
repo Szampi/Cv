@@ -7,6 +7,7 @@ import com.hermanowicz.cv.model.GithubData
 interface MainView : View {
     fun initView()
     fun displayToDoList(data: List<FormItem>)
+    fun showForm(item: FormItem, documentId: String)
     fun showForm()
     fun showProgressBar()
     fun hideProgressBar()

@@ -2,12 +2,12 @@ package com.hermanowicz.cv.usecase
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hermanowicz.cv.model.FormItem
-import com.hermanowicz.cv.network.FormItemRequest
-import com.hermanowicz.cv.network.response.FormItemResponse
 import com.hermanowicz.cv.repository.UserRepository
+import com.hermanowicz.cv.utils.view.currentTime
+import com.hermanowicz.cv.utils.view.formItem
+import com.hermanowicz.cv.utils.view.formItemResponse
 import io.reactivex.Single
 import java.util.*
-
 
 class FirebaseUseCase(
     private val firebaseDB: FirebaseFirestore,
@@ -15,6 +15,7 @@ class FirebaseUseCase(
 ) {
     private val currentUserId = getUserId()
     private val itemList = mutableListOf<FormItem>()
+    private val documentIds = mutableListOf<String>()
 
     private fun getUserId(): String {
         val id = repository.userId()
@@ -25,29 +26,18 @@ class FirebaseUseCase(
         return userId
     }
 
-    private fun FormItemResponse.toFormItemList(): FormItem {
-        return FormItem(this.title, this.description, this.imageUrl, this.date)
-    }
-
-    private fun FormItem.toFormItemResponse(): FormItemResponse {
-        return FormItemResponse(
-            title = this.title,
-            description = this.description,
-            imageUrl = this.url,
-            date = this.date
-        )
-    }
-
     fun getData(): Single<List<FormItem>> {
         return Single.create { publisher ->
             firebaseDB.collection(currentUserId)
                 .limit(30)
                 .get()
                 .addOnSuccessListener {
-                    val response = it.toObjects(FormItemResponse::class.java)
-                    val list = response.map { item -> item.toFormItemList() }
-                    itemList.addAll(list)
-                    publisher.onSuccess(list)
+                    val todoList = it.documents.map { doc ->
+                        doc.formItemResponse().formItem()
+                    }
+                    documentIds.addAll(it.documents.map { doc -> doc.id })
+                    itemList.addAll(todoList)
+                    publisher.onSuccess(todoList)
                 }
                 .addOnFailureListener {
                     publisher.onError(it)
@@ -63,10 +53,12 @@ class FirebaseUseCase(
                 .limit(30)
                 .get()
                 .addOnSuccessListener {
-                    val response = it.toObjects(FormItemResponse::class.java)
-                    val list = response.map { item -> item.toFormItemList() }
-                    itemList.addAll(list)
-                    publisher.onSuccess(list)
+                    val todoList = it.documents.map { doc ->
+                        doc.id
+                        doc.formItemResponse().formItem()
+                    }
+                    itemList.addAll(todoList)
+                    publisher.onSuccess(todoList)
                 }
                 .addOnFailureListener {
                     publisher.onError(it)
@@ -77,24 +69,44 @@ class FirebaseUseCase(
     fun addListener(): Single<List<FormItem>> {
         return Single.create { publisher ->
             firebaseDB.collection(currentUserId).addSnapshotListener { data, error ->
-                //data?.documentChanges[0].document.toObject()
                 if (error != null) publisher.onError(error)
-                val response = data?.toObjects(FormItemResponse::class.java)
-                val list = response?.map { item -> item.toFormItemList() } ?: listOf()
-                publisher.onSuccess(list)
+                val todoList = data?.documents?.map { doc ->
+                    doc.formItemResponse().formItem()
+                } ?: listOf()
+                publisher.onSuccess(todoList)
             }
         }
     }
 
-    fun updateData(title: String, description: String, imageUrl: String): Single<Void> {
-        val item = FormItem(title, description, imageUrl, Date())
+    fun updateData(
+        documentId: String,
+        title: String,
+        description: String,
+        imageUrl: String
+    ): Single<Boolean> {
+        val item = mapOf(
+            "title" to title,
+            "description" to description,
+            "imageUrl" to imageUrl,
+            "date" to currentTime()
+        )
         return Single.create { publisher ->
-            firebaseDB.collection(currentUserId).document()
-                .set(FormItemRequest(listOf(item.toFormItemResponse()))).addOnSuccessListener {
-                    publisher.onSuccess(it)
-                }.addOnFailureListener {
-                    publisher.onError(it)
-                }
+            if (documentId.isEmpty()) {
+                firebaseDB.collection(currentUserId).document().set(item)
+                    .addOnSuccessListener { publisher.onSuccess(true) }
+                    .addOnFailureListener { publisher.onError(it) }
+            } else {
+                firebaseDB.collection(currentUserId).document(documentId).update(item)
+                    .addOnSuccessListener {
+                        publisher.onSuccess(true)
+                    }.addOnFailureListener {
+                        publisher.onError(it)
+                    }
+            }
         }
+    }
+
+    fun documentId(position: Int): String {
+        return documentIds[position]
     }
 }

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hermanowicz.cv.R
 import com.hermanowicz.cv.model.FormItem
+import com.hermanowicz.cv.utils.view.formatDate
 import com.hermanowicz.cv.utils.view.load
 import kotlinx.android.synthetic.main.i_todo.view.*
 
@@ -32,6 +33,7 @@ class FormItemAdapter(private val listener: FormItemClickedListener? = null) :
     }
 
     fun addItems(categories: List<FormItem>) {
+        list.clear()
         list.addAll(categories)
         notifyDataSetChanged()
     }
@@ -49,7 +51,7 @@ class FormItemAdapter(private val listener: FormItemClickedListener? = null) :
 
             if (item.description.length < 50) itemView.expandableImg.visibility = View.GONE
             itemView.itemContainer.setOnClickListener {
-                listener?.onFormItemClicked(item)
+                listener?.onFormItemClicked(item, adapterPosition)
             }
             itemView.expandableImg.setOnClickListener {
                 if (currentMaxLines == MIN_LINES) {
@@ -62,12 +64,14 @@ class FormItemAdapter(private val listener: FormItemClickedListener? = null) :
                     itemView.expandableImg.setBackgroundResource(R.drawable.ic_arrow_down_24dp)
                 }
             }
+
+            itemView.date.text = item.date.formatDate()
         }
     }
 }
 
 interface FormItemClickedListener {
-    fun onFormItemClicked(item: FormItem)
+    fun onFormItemClicked(item: FormItem, position: Int)
 }
 
 

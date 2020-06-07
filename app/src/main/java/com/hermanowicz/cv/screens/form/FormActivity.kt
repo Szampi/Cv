@@ -15,10 +15,12 @@ class FormActivity : AppCompatActivity(), FormView {
 
     companion object {
         const val FORM_ITEM = "FORM_ITEM"
+        const val DOCUMENT_ID = "DOCUMENT_ID"
 
-        fun createExtras(item: FormItem): Bundle {
+        fun createExtras(documentId: String, item: FormItem): Bundle {
             return Bundle().apply {
                 putParcelable(FORM_ITEM, item)
+                putString(DOCUMENT_ID, documentId)
             }
         }
     }
@@ -26,6 +28,7 @@ class FormActivity : AppCompatActivity(), FormView {
     @Inject
     lateinit var presenter: FormPresenter
     private val formItem by lazy { intent.extras?.getParcelable<FormItem>(FORM_ITEM) }
+    private val documentId by lazy { intent.extras?.getString(DOCUMENT_ID) ?: "" }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -37,8 +40,8 @@ class FormActivity : AppCompatActivity(), FormView {
 
     override fun initView() {
         formItem?.let {
-            descriptionField.setText(it.description)
             titleField.setText(it.title)
+            descriptionField.setText(it.description)
             urlField.setText(it.url)
         }
 
@@ -47,9 +50,10 @@ class FormActivity : AppCompatActivity(), FormView {
 
         save.setOnClickListener {
             presenter.saveData(
-                descriptionField.text.toString(),
-                titleField.text.toString(),
-                urlField.text.toString()
+                documentId = documentId,
+                title = titleField.text.toString(),
+                description = descriptionField.text.toString(),
+                imageUrl = urlField.text.toString()
             )
         }
     }

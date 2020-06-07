@@ -6,10 +6,10 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin_8"
     android:animateLayoutChanges="true"
-    android:paddingBottom="@dimen/margin_16"
     android:background="@drawable/background_rounded_border"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:paddingBottom="@dimen/margin_16">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineStart"
@@ -24,6 +24,14 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_12"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/title"
@@ -47,7 +55,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="@dimen/margin_16"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/date" />
 
     <TextView
         android:id="@+id/description"

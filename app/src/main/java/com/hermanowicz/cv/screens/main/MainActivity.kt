@@ -45,6 +45,11 @@ class MainActivity : AppCompatActivity(), MainView, FormItemClickedListener {
         adapter.addItems(data)
     }
 
+    override fun showForm(item: FormItem, documentId: String) {
+        val bundle = FormActivity.createExtras(documentId, item)
+        start<FormActivity>(bundle)
+    }
+
     override fun showForm() {
         start<FormActivity>()
     }
@@ -63,8 +68,12 @@ class MainActivity : AppCompatActivity(), MainView, FormItemClickedListener {
         presenter.onDestroy()
     }
 
-    override fun onFormItemClicked(item: FormItem) {
-        val bundle = FormActivity.createExtras(item)
-        start<FormActivity>(bundle)
+    override fun onFormItemClicked(item: FormItem, position: Int) {
+        presenter.getDocument(item, position)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.collectionListener()
     }
 }
