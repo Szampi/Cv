@@ -11,12 +11,14 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.a_form.*
 import javax.inject.Inject
 
-
 class FormActivity : AppCompatActivity(), FormView {
 
     companion object {
         const val FORM_ITEM = "FORM_ITEM"
         const val DOCUMENT_ID = "DOCUMENT_ID"
+        const val TITLE = "TITLE"
+        const val DESCRIPTION = "DESCRIPTION"
+        const val IMAGE_URL = "IMAGE_URL"
 
         fun createExtras(documentId: String, item: FormItem): Bundle {
             return Bundle().apply {
@@ -37,6 +39,17 @@ class FormActivity : AppCompatActivity(), FormView {
         setContentView(R.layout.a_form)
         presenter.bind(this)
         presenter.onCreate()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        presenter.onStateSave(outState)
+
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        presenter.onRestoreState(savedInstanceState)
     }
 
     override fun initView() {
@@ -73,5 +86,19 @@ class FormActivity : AppCompatActivity(), FormView {
 
     override fun showError(message: String?) {
         showErrorDialog(this, message)
+    }
+
+    override fun saveState(outState: Bundle) {
+        outState.putCharSequence(TITLE, titleField.text)
+        outState.putCharSequence(DESCRIPTION, descriptionField.text)
+        outState.putCharSequence(IMAGE_URL, urlField.text)
+    }
+
+    override fun showSavedState(savedInstanceState: Bundle) {
+        savedInstanceState.let {
+            titleField.setText(it.getCharSequence(TITLE))
+            descriptionField.setText(it.getCharSequence(DESCRIPTION))
+            urlField.setText(it.getCharSequence(IMAGE_URL))
+        }
     }
 }

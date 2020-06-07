@@ -1,5 +1,6 @@
 package com.hermanowicz.cv.screens.form
 
+import android.os.Bundle
 import com.hermanowicz.cv.di.common.presenter.SubscribingPresenter
 import com.hermanowicz.cv.di.common.transformer.RxTransformer
 import com.hermanowicz.cv.usecase.FirebaseUseCase
@@ -22,5 +23,13 @@ class FormPresenter(transformer: RxTransformer, private val firebaseUseCase: Fir
                 view?.hideProgressBar()
                 view?.showError(it.message)
             }).remember()
+    }
+
+    fun onStateSave(outState: Bundle) {
+        view?.saveState(outState)
+    }
+
+    fun onRestoreState(savedInstanceState: Bundle) {
+        view?.showSavedState(savedInstanceState)
     }
 }
