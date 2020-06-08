@@ -37,15 +37,12 @@ class MainPresenter(
     }
 
     fun loadMoreItems() {
-//        view?.showProgressBar()
         firebaseUseCase.loadMore().compose(transformer.single()).subscribe({
-            if (it.isNotEmpty()) {
-//                view?.hideProgressBar()
+            if (it.isNotEmpty() && !list.containsAll(it)) {
                 list.addAll(it)
                 view?.displayToDoList(list)
-            } //else view?.hideProgressBar()
+            }
         }, {
-//            view?.hideProgressBar()
             view?.showError(it.message)
         }).remember()
     }
