@@ -8,7 +8,6 @@ import com.hermanowicz.cv.utils.view.currentTime
 import com.hermanowicz.cv.utils.view.formItem
 import com.hermanowicz.cv.utils.view.formItemResponse
 import io.reactivex.Single
-import java.util.*
 
 class FirebaseUseCase(
     private val firebaseDB: FirebaseFirestore,
@@ -21,11 +20,8 @@ class FirebaseUseCase(
 
     private fun getUserId(): String {
         val id = repository.userId()
-        val userId = if (
-            id.isNotEmpty()
-        ) id else UUID.randomUUID().toString()
-        if (id.isEmpty()) repository.saveUserId(userId)
-        return userId
+        repository.saveUserId(id)
+        return repository.userId()
     }
 
     fun getData(): Single<List<FormItem>> {
